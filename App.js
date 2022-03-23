@@ -1,14 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Signup from './screens/Signup';
 
 export default function App() {
+  const names = ["Egor", "Bugor", "Shdja"]
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <StatusBar />
+      <Signup />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -16,5 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    height: '100%'
   },
 });
