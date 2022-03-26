@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Signup from './screens/Signup';
+import SignIn from './screens/SignIn';
 
 export default function App() {
-  const names = ["Egor", "Bugor", "Shdja"]
   return (
     <View style={styles.container}>
       <StatusBar />

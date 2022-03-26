@@ -1,33 +1,13 @@
 import React, { useState } from 'react';
-import { ImageBackground, Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity } from "react-native";
+import { ImageBackground, Text, View, StyleSheet, SafeAreaView, TextInput, Image, TouchableOpacity } from "react-native";
 import UserInput from '../components/auth/userInput';
 import UserSubmitButton from '../components/auth/UserSubmitButton'
-import axios from 'axios';
 
-const Signup = () => {
+const SignIn = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
-
-    const handleSubmit = async () => {
-        setLoading(true)
-        if(!name || !email || !password){
-            alert('All fields are required')
-            setLoading(false);
-            return;
-        }
-
-        try {
-            const {data} = await axios.post('http://localhost:8000/api/signup', {name, email, password})
-            console.log('Sign up succes ', data);
-            alert('Sign up succes')
-            //redirect
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     return (
         <SafeAreaView style={styles.signUpContainer}>
             <ImageBackground source={require("../assets/bg.png")} resizeMode="cover" style={styles.bgImage}></ImageBackground>
@@ -41,11 +21,7 @@ const Signup = () => {
                 </View>
             </View>
             <View style={styles.signUpForm}>
-                <Text style={styles.signUpTitle}>Sign up</Text>
-                <UserInput
-                    name="Name"
-                    value={name}
-                    setValue={setName} />
+                <Text style={styles.signUpTitle}>Sign in</Text>
                 <UserInput
                     name="e-mail"
                     value={email}
@@ -58,7 +34,6 @@ const Signup = () => {
                     setValue={setPassword}
                     secureTextEntry={true}
                     autoCompleteType="password" />
-                {/* <Text>{JSON.stringify({name, email, password}, null, 4)}</Text> */}
                 <View style={[styles.lineText]}>
                     <View style={styles.lineTextLine} />
                     <Text style={styles.lineTextText}>or continue with</Text>
@@ -75,11 +50,11 @@ const Signup = () => {
                         <Image source={require("../assets/facebook.png")} style={styles.socialImage}></Image>
                     </TouchableOpacity>
                 </View>
-                <UserSubmitButton title="Sign up" handleSubmit={handleSubmit} loading={loading}/>
+                <UserSubmitButton title="Sign in" />
                 <View style={styles.signUpLine}>
-                    <Text>Already have an account?</Text>
+                    <Text>Don`t have an account?</Text>
                     <TouchableOpacity>
-                        <Text style={styles.signUpButton}>Sign in</Text>
+                        <Text style={styles.signUpButton}>Sign up</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -208,6 +183,23 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: '#fff'
     },
+    submmitButton: {
+        backgroundColor: '#0A54FF',
+        width: '100%',
+        borderRadius: 100,
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 50,
+        height: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    submmitButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16
+    },
     signUpLine: {
         display: 'flex',
         flexDirection: 'row',
@@ -222,4 +214,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Signup;
+export default SignIn;
