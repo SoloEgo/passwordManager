@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { ImageBackground, Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity } from "react-native";
+import { ImageBackground, Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView } from "react-native";
 import UserInput from '../components/auth/userInput';
 import UserSubmitButton from '../components/auth/UserSubmitButton'
 import axios from 'axios';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -22,14 +22,16 @@ const Signup = () => {
             const {data} = await axios.post('http://localhost:8000/api/signup', {name, email, password})
             console.log('Sign up succes ', data);
             alert('Sign up succes')
+            setLoading(false);
             //redirect
         } catch (error) {
             console.log(error)
+            setLoading(false);
         }
     }
 
     return (
-        <SafeAreaView style={styles.signUpContainer}>
+        <View style={styles.signUpContainer}>
             <ImageBackground source={require("../assets/bg.png")} resizeMode="cover" style={styles.bgImage}></ImageBackground>
             <View style={styles.logoHolder}>
                 <View style={styles.logoImageHolder}>
@@ -41,58 +43,64 @@ const Signup = () => {
                 </View>
             </View>
             <View style={styles.signUpForm}>
-                <Text style={styles.signUpTitle}>Sign up</Text>
-                <UserInput
-                    name="Name"
-                    value={name}
-                    setValue={setName} />
-                <UserInput
-                    name="e-mail"
-                    value={email}
-                    setValue={setEmail}
-                    autoCompleteType="email"
-                    keyboardType="email-address" />
-                <UserInput
-                    name="Password"
-                    value={password}
-                    setValue={setPassword}
-                    secureTextEntry={true}
-                    autoCompleteType="password" />
+                <View style={styles.signFormRow}>
+                    <Text style={styles.signUpTitle}>Sign up</Text>
+                    <UserInput
+                        name="Name"
+                        value={name}
+                        setValue={setName} />
+                    <UserInput
+                        name="e-mail"
+                        value={email}
+                        setValue={setEmail}
+                        autoCompleteType="email"
+                        keyboardType="email-address" />
+                    <UserInput
+                        name="Password"
+                        value={password}
+                        setValue={setPassword}
+                        secureTextEntry={true}
+                        autoCompleteType="password" />
+                </View>
+                <View style={styles.signFormRow}>
+                    <View style={[styles.lineText]}>
+                        <View style={styles.lineTextLine} />
+                        <Text style={styles.lineTextText}>or continue with</Text>
+                        <View style={styles.lineTextLine} />
+                    </View>
+                    <View style={styles.socialHolder}>
+                        <TouchableOpacity style={styles.socilaButton}>
+                            <Image source={require("../assets/apple-logo.png")} style={styles.socialImage}></Image>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.socilaButton}>
+                            <Image source={require("../assets/google.png")} style={styles.socialImage}></Image>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.socilaButton}>
+                            <Image source={require("../assets/facebook.png")} style={styles.socialImage}></Image>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={[styles.signFormRow, {marginBottom: 30}]}>
+                    <UserSubmitButton title="Sign up" handleSubmit={handleSubmit} loading={loading}/>
+                    <View style={styles.signUpLine}>
+                        <Text>Already have an account?</Text>
+                        <TouchableOpacity>
+                            <Text onPress={() => navigation.navigate("SignIn")} style={styles.signUpButton}>Sign in</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 {/* <Text>{JSON.stringify({name, email, password}, null, 4)}</Text> */}
-                <View style={[styles.lineText]}>
-                    <View style={styles.lineTextLine} />
-                    <Text style={styles.lineTextText}>or continue with</Text>
-                    <View style={styles.lineTextLine} />
-                </View>
-                <View style={styles.socialHolder}>
-                    <TouchableOpacity style={styles.socilaButton}>
-                        <Image source={require("../assets/apple-logo.png")} style={styles.socialImage}></Image>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.socilaButton}>
-                        <Image source={require("../assets/google.png")} style={styles.socialImage}></Image>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.socilaButton}>
-                        <Image source={require("../assets/facebook.png")} style={styles.socialImage}></Image>
-                    </TouchableOpacity>
-                </View>
-                <UserSubmitButton title="Sign up" handleSubmit={handleSubmit} loading={loading}/>
-                <View style={styles.signUpLine}>
-                    <Text>Already have an account?</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.signUpButton}>Sign in</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     signUpContainer: {
-        flex: 1,
+        display: "flex",
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: '100%',
         height: '100%',
     },
@@ -103,22 +111,40 @@ const styles = StyleSheet.create({
         zIndex: 0,
     },
     logoHolder: {
+        flex: 0,
         width: '100%',
-        height: '25%',
+        height: '30%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    signUpForm: {
+        backgroundColor: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        height: '70%',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        zIndex: 10,
         shadowColor: '#d3d3d3',
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 1,
         shadowRadius: 10,
+        paddingHorizontal: 50,
+        paddingTop: 50,
+    },
+    signFormRow: {
+        width: '100%',
     },
     logoImageHolder: {
         width: '100%',
-        height: '70%',
+        height: '60%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 30
     },
     logoImage: {
         width: '100%',
@@ -132,7 +158,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         display: 'flex',
         flexDirection: 'row',
-        borderRadius: 10,
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: '#d3d3d3'
     },
     logoText: {
         fontSize: 20,
@@ -141,24 +169,6 @@ const styles = StyleSheet.create({
         color: '#0A54FF',
         fontWeight: 'bold',
         fontSize: 20,
-    },
-    signUpForm: {
-        bottom: 0,
-        backgroundColor: '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: '100%',
-        height: '75%',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        zIndex: 10,
-        shadowColor: '#d3d3d3',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 1,
-        shadowRadius: 10,
-        paddingHorizontal: 50,
-        paddingTop: 50,
     },
     signUpTitle: {
         width: '100%',

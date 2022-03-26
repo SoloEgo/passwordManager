@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     signUpInput: {
-        fontSize: 20,
+        fontSize: 16,
         borderWidth: 1,
         backgroundColor: "#fff",
         width: '100%',
         borderRadius: 100,
-        paddingVertical: 10,
+        paddingVertical: 15,
         paddingHorizontal: 20,
         borderColor: '#CBCBCB'
     }
