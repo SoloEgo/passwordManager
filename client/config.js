@@ -1,0 +1,1 @@
+export const APIURL = "https://tasty-hound-97.loca.lt";
