@@ -7,6 +7,7 @@ const UserInput = ({
     setValue,
     autoCorrect = false,
     keyboadType = "default",
+    autoCapitalize = 'none',
     secureTextEntry = false }) => {
     return (
         <View style={styles.inputHolder}>
@@ -18,6 +19,7 @@ const UserInput = ({
                 autoCorrect = {autoCorrect}
                 keyboadType = {keyboadType}
                 secureTextEntry = {secureTextEntry}
+                autoCapitalize = {autoCapitalize}
             />
         </View>
     )
@@ -28,7 +30,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20,
         width: '100%',
     },
     signUpInput: {

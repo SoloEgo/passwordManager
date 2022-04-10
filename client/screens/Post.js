@@ -1,12 +1,7 @@
-import React, { useContext } from "react";
-import { Text, View } from 'react-native';
-import { AuthContext } from "../context/auth";
+import React from 'react'
+import {View, Text} from 'react-native'
 import FooterTabs from "../components/nav/FooterTabs";
-
-const Home = () => {
-
-    const [state, setState] = useContext(AuthContext)
-
+export default function Post (){
     return (
         <View style={{
             flex: 1,
@@ -29,7 +24,7 @@ const Home = () => {
                     justifyContent: 'space-between',
                 }}>
                     <Text>
-                        {JSON.stringify(state, null, 4)}
+                        Posts
                     </Text>
                 </View>
                 <View>
@@ -37,8 +32,5 @@ const Home = () => {
                 </View>
             </View>
         </View>
-
     )
 }
-
-export default Home;

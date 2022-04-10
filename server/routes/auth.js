@@ -8,6 +8,8 @@ const {
     signin,
     forgotPassword,
     resetPassword,
+    uploadImage,
+    requireSignIn
 } = require("../controllers/auth");
 
 router.get("/", (req, res) => {
@@ -15,9 +17,11 @@ router.get("/", (req, res) => {
         data: "Auth API is set well",
     });
 });
+
 router.post("/signup", signup);
 router.post("/signin", signin);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+router.post("/upload-image", requireSignIn, uploadImage)
 
 module.exports = router;

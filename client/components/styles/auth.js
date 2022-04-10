@@ -98,6 +98,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 20
     },
+    userInput: {
+        marginTop: 20
+    },
     signUpButton: {
         fontWeight: 'bold',
         color: '#0A54FF',

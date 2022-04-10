@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ImageBackground, Text, View, Alert, Image, TouchableOpacity } from "react-native";
 import UserInput from '../components/auth/userInput';
 import UserSubmitButton from '../components/auth/UserSubmitButtons'
@@ -15,6 +15,10 @@ const SignIn = ({ navigation }) => {
 
     const [state, setState] = useContext(AuthContext)
 
+    useEffect(()=>{
+
+    },[])
+
     const handleSubmit = async () => {
         setLoading(true)
         if( !email || !password){
@@ -24,7 +28,7 @@ const SignIn = ({ navigation }) => {
         }
 
         try {
-            const {data} = await axios.post(APIURL+'/api/signin', {email, password})
+            const {data} = await axios.post('/signin', {email, password})
             if(data.error){
                 Alert.alert(
                     "Sign in failed!",
@@ -38,11 +42,11 @@ const SignIn = ({ navigation }) => {
                 await AsyncStorage.setItem('@auth', JSON.stringify(data))
                 // save in context
                 setState(data);
+                
+                setLoading(false);
                 navigation.navigate('Home')
                 // console.log('Sign in succes ', data);
             }
-            
-            setLoading(false);
             //redirect
         } catch (error) {
             alert(error)
@@ -52,7 +56,6 @@ const SignIn = ({ navigation }) => {
 
     const loadFromAsyncStorage = async () => {
         let data = await AsyncStorage.getItem("@auth");
-        console.log('data from async storage: ', data)
     }
 
     loadFromAsyncStorage();
@@ -72,18 +75,23 @@ const SignIn = ({ navigation }) => {
             <View style={styles.signUpForm}>
                 <View style={styles.signFormRow}>
                     <Text style={styles.signUpTitle}>Sign in</Text>
-                    <UserInput
-                        name="e-mail"
-                        value={email}
-                        setValue={setEmail}
-                        autoCompleteType="email"
-                        keyboardType="email-address" />
-                    <UserInput
-                        name="Password"
-                        value={password}
-                        setValue={setPassword}
-                        secureTextEntry={true}
-                        autoCompleteType="password" />
+                    <View style={styles.userInput}>
+                        <UserInput
+                            name="e-mail"
+                            value={email}
+                            setValue={setEmail}
+                            autoCompleteType="email"
+                            autoCapitalize='none'
+                            keyboardType="email-address" />
+                    </View>
+                    <View style={styles.userInput}>
+                        <UserInput
+                            name="Password"
+                            value={password}
+                            setValue={setPassword}
+                            secureTextEntry={true}
+                            autoCompleteType="password" />
+                    </View>
                 </View>
                 <View style={[styles.signFormRow, { marginBottom: 30 }]}>
                     <UserSubmitButton title="Sign in" handleSubmit={handleSubmit} loading={loading} />

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ImageBackground, Text, View, Alert, Image, TouchableOpacity } from "react-native";
 import UserInput from '../components/auth/userInput';
 import UserSubmitButton from '../components/auth/UserSubmitButtons'
@@ -24,7 +24,7 @@ const Signup = ({ navigation }) => {
         }
 
         try {
-            const { data } = await axios.post('/api/signup', { name, email, password })
+            const { data } = await axios.post('/signup', { name, email, password })
             if (data.error) {
                 Alert.alert(
                     "Sign up failed!",
@@ -68,22 +68,31 @@ const Signup = ({ navigation }) => {
             <View style={styles.signUpForm}>
                 <View style={styles.signFormRow}>
                     <Text style={styles.signUpTitle}>Sign up</Text>
-                    <UserInput
-                        name="Name"
-                        value={name}
-                        setValue={setName} />
-                    <UserInput
-                        name="e-mail"
-                        value={email}
-                        setValue={setEmail}
-                        autoCompleteType="email"
-                        keyboardType="email-address" />
-                    <UserInput
-                        name="Password"
-                        value={password}
-                        setValue={setPassword}
-                        secureTextEntry={true}
-                        autoCompleteType="password" />
+                    <View style={styles.userInput}>
+                        <UserInput
+                            style={styles.userInput}
+                            name="Name"
+                            value={name}
+                            setValue={setName} />
+                    </View>
+                    <View style={styles.userInput}>
+                        <UserInput
+                            style={styles.userInput}
+                            name="e-mail"
+                            value={email}
+                            setValue={setEmail}
+                            autoCompleteType="email"
+                            keyboardType="email-address" />
+                    </View>
+                    <View style={styles.userInput}>
+                        <UserInput
+                            style={styles.userInput}
+                            name="Password"
+                            value={password}
+                            setValue={setPassword}
+                            secureTextEntry={true}
+                            autoCompleteType="password" />
+                    </View>
                 </View>
                 <View style={[styles.signFormRow, { marginBottom: 30 }]}>
                     <UserSubmitButton title="Sign up" handleSubmit={handleSubmit} loading={loading} />
